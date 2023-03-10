@@ -1,7 +1,6 @@
 /**
 *Description: This program Defines a dice object and its methods
 *Date: 02/27/2023
-*@author  Joshua Olesiak
 *@version 0.0.0
 */ 
 import java.util.Random;
