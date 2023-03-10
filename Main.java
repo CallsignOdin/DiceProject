@@ -1,9 +1,6 @@
 /**
 *Description: This program Drives a blackjack game
-*Class: Spring - COSC 1437.82702
-*Assignment1: Hello World
 *Date: 02/27/2023
-*@author  Joshua Olesiak
 *@version 0.0.0
 */ 
 
