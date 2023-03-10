@@ -1,0 +1,9 @@
+GAME LOGS
+--------
+New Match
+Initial player roll: 8
+Player rolls dice: 1 and 4.
+Dealer Total Exposed: 12
+Player final Total: 13
+Dealer final Total: 12
+Game result: WIN
