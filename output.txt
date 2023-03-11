@@ -7,3 +7,73 @@ Dealer Total Exposed: 12
 Player final Total: 13
 Dealer final Total: 12
 Game result: WIN
+New Match
+Initial player roll: 5
+Player rolls dice: 3 and 2.
+Player rolls dice: 1 and 4.
+Player rolls dice: 5 and 2.
+Game result: BUST
+New Match
+Initial player roll: 10
+Player rolls dice: 3 and 4.
+Dealer Total Exposed: 5
+Dealer rolls dice: 5 and 1.
+Dealer Total: 11
+Player final Total: 17
+Dealer final Total: 11
+Game result: WIN
+New Match
+Initial player roll: 8
+Player rolls dice: 2 and 2.
+Player rolls dice: 2 and 2.
+Player rolls dice: 5 and 2.
+Game result: BUST
+New Match
+Initial player roll: 8
+Player rolls dice: 4 and 1.
+Player rolls dice: 4 and 6.
+Game result: BUST
+New Match
+Initial player roll: 5
+Player rolls dice: 2 and 2.
+Player rolls dice: 4 and 4.
+Player rolls dice: 6 and 5.
+Game result: BUST
+New Match
+Initial player roll: 5
+Player rolls dice: 5 and 6.
+Player rolls dice: 6 and 3.
+Game result: BUST
+New Match
+Initial player roll: 7
+Player rolls dice: 6 and 5.
+Player rolls dice: 4 and 1.
+Game result: BUST
+New Match
+Initial player roll: 12
+Player rolls dice: 2 and 4.
+Player rolls dice: 4 and 6.
+Game result: BUST
+New Match
+Initial player roll: 6
+Player rolls dice: 4 and 4.
+Player rolls dice: 3 and 6.
+Game result: BUST
+New Match
+Initial player roll: 3
+Player rolls dice: 6 and 4.
+Player rolls dice: 5 and 3.
+Dealer Total Exposed: 8
+Dealer rolls dice: 6 and 5.
+Dealer Total: 19
+Player final Total: 21
+Dealer final Total: 19
+Game result: WIN
+New Match
+Initial player roll: 4
+Player rolls dice: 4 and 5.
+Player rolls dice: 4 and 2.
+Dealer Total Exposed: 10
+Player final Total: 19
+Dealer final Total: 10
+Game result: WIN
