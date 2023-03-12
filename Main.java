@@ -12,13 +12,17 @@ public class Main {
 * @return Termination code as int, 0 for normal, anything else is error condition
 * @throws Nothing is implemented
 */
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException {
 		File welcomeMsgFile = new File("input.txt");
 		Scanner inputFile = new Scanner(welcomeMsgFile);
+
 		String welcomeMsg = inputFile.nextLine();
 		System.out.println(welcomeMsg);
 		System.out.println();
+
 		inputFile.close();
+
+		//starts an instance of Dice blackjack
 		GameInstance game = new GameInstance();
 	}
 }

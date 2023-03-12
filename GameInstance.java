@@ -38,13 +38,8 @@ public class GameInstance {
 	}
 
 	public void handleMenuInput() {
-		
-
-
-
 		while(playerDiceOne.getValue() + playerDiceTwo.getValue()  <= MAXTOTAL ) {
 		menuInputVal = getMenuValue();
-
 
 		if(menuInputVal == 1) {
 			playerDiceOne.roll();
@@ -74,6 +69,63 @@ public class GameInstance {
 				
 
 			//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
+			updateDealerHand();
+				
+			//GAME LOGS
+			System.out.println("\nPlayer final Total: " + playerTotal);
+			gameLogWriter.println("Player final Total: " + playerTotal);
+			System.out.println("Dealer final Total: " + dealerTotal);
+			gameLogWriter.println("Dealer final Total: " + dealerTotal);
+					
+
+			if(playerTotal == dealerTotal) {
+				//GAME LOGS
+				System.out.println("Game result: DRAW");
+
+						
+				gameLogWriter.println("Game result: DRAW");
+
+					running	= false;
+					break;
+				}
+				else if(playerTotal > dealerTotal) {
+					//GAME LOGS
+					System.out.println("Game result: WIN");
+
+						
+					gameLogWriter.println("Game result: WIN");
+
+					running = false;
+					break;
+				}
+				else {
+					//GAME LOGS
+					System.out.println("Game result: LOSS");						
+					gameLogWriter.println("Game result: LOSS");
+
+					running = false;
+					break;
+				}
+		}
+
+		else if(menuInputVal == 3) {
+			//GAME LOGS
+			System.out.println("Game Closing");
+
+				
+			gameLogWriter.println("Game Closed");
+
+			running = false;
+			break;
+		}
+		else {
+			System.out.println("Error, please retry");
+		}
+
+	}}
+
+	public void updateDealerHand() {
+		//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
 			if(dealerTotal <= MAXTOTAL - 12) {
 				while(dealerTotal <= MAXTOTAL - 12) {
 				dealerDiceOne.roll();
@@ -86,61 +138,8 @@ public class GameInstance {
 				System.out.println("\nDealer Total: " + dealerTotal);					gameLogWriter.println("Dealer Total: " + dealerTotal);
 				}
 			}
-				
-					//GAME LOGS
-					System.out.println("\nPlayer final Total: " + playerTotal);
-					gameLogWriter.println("Player final Total: " + playerTotal);
-					System.out.println("Dealer final Total: " + dealerTotal);
-					gameLogWriter.println("Dealer final Total: " + dealerTotal);
-					
-
-					if(playerTotal == dealerTotal) {
-						//GAME LOGS
-						System.out.println("Game result: DRAW");
-
-						
-						gameLogWriter.println("Game result: DRAW");
-
-						running	= false;
-						break;
-					}
-					else if(playerTotal > dealerTotal) {
-						//GAME LOGS
-						System.out.println("Game result: WIN");
-
-						
-						gameLogWriter.println("Game result: WIN");
-
-						running = false;
-						break;					}
-					else {
-						//GAME LOGS
-						System.out.println("Game result: LOSS");
-
-						
-						gameLogWriter.println("Game result: LOSS");
-
-						running = false;
-						break;
-					}
-			}
-
-			else if(menuInputVal == 3) {
-				//GAME LOGS
-				System.out.println("Game Closing");
-
-				
-				gameLogWriter.println("Game Closed");
-
-				running = false;
-				break;
-			}
-			else {
-				System.out.println("Error, please retry");
-			}
-
-		}
 	}
+
 
 	public void displayMenu() {
 		System.out.println("Player Total: " + playerTotal + "\n");
@@ -153,9 +152,4 @@ public class GameInstance {
 	public int getMenuValue() {
 		displayMenu();
 		return menuInput.nextInt();
-	}
-}
-
-
-
-
+	}}
