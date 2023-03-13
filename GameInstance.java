@@ -65,7 +65,8 @@ public class GameInstance {
 			//display & log player/dealer values & determine win
 				
 			//GAME LOGS
-			System.out.println("\nDealer Total Exposed: " + dealerTotal);				gameLogWriter.println("Dealer Total Exposed: " + dealerTotal);
+			System.out.println("\nDealer Total Exposed: " + dealerTotal);
+			gameLogWriter.println("Dealer Total Exposed: " + dealerTotal);
 				
 
 			//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
@@ -126,18 +127,18 @@ public class GameInstance {
 
 	public void updateDealerHand() {
 		//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
-			if(dealerTotal <= MAXTOTAL - 12) {
-				while(dealerTotal <= MAXTOTAL - 12) {
-				dealerDiceOne.roll();
-				dealerDiceTwo.roll();
-				dealerTotal += (dealerDiceOne.getValue() + dealerDiceTwo.getValue());
+		if(dealerTotal <= MAXTOTAL - 12) {
+			while(dealerTotal <= MAXTOTAL - 12) {
+			dealerDiceOne.roll();
+			dealerDiceTwo.roll();
+			dealerTotal += (dealerDiceOne.getValue() + dealerDiceTwo.getValue());
 
-				//GAME LOGS
-				System.out.println("\nDealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");
-				gameLogWriter.println("Dealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");					
-				System.out.println("\nDealer Total: " + dealerTotal);					gameLogWriter.println("Dealer Total: " + dealerTotal);
-				}
+			//GAME LOGS
+			System.out.println("\nDealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");
+			gameLogWriter.println("Dealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");					
+			System.out.println("\nDealer Total: " + dealerTotal);					gameLogWriter.println("Dealer Total: " + dealerTotal);
 			}
+		}
 	}
 
 
