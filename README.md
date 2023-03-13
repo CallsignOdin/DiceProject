@@ -8,9 +8,9 @@ Class Project game based on blackjack. Instead of cards, there are dice.
 
 -----Future Updates-----
 
-Dealer difficulty
+-Dealer difficulty
 
-Player profile persistence
+-Player profile persistence
 
 -Multiple computer players
 
