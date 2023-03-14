@@ -8,14 +8,33 @@
 //NetworthChange: Double
 //
 public class Player {
+	//need input validation because name will become filename, must prevent invalid file names.
 	private String name;
 	private int handWins;
 	private int handLosses;
 	private BankAccount bank;
 	private File storage;
+	FileWriter gameLogHandler = new FileWriter(generatePlayerFileName(), true);
+	PrintWriter gameLogWriter = new PrintWriter(gameLogHandler);
 
+	//constructor
 	Player(String name) {
 		this.name = name;
+		if(this.storage != null) {//ERROR: Need to check if file exists in location specified and gen if not
+			createDataFile()
+		}
+		else {
+
+		}
+		
+	}
+
+	public String getPlayerName() {
+		return this.name;
+	}
+
+	public String generatePlayerFileName() {
+		return (getPlayerName() + ".txt");
 	}
 
 
@@ -24,6 +43,9 @@ public class Player {
 		this.bank.accountTotal += total;
 	}
 
-	public void createDataFile()
+	//creates new file to store data
+	public void createDataFile() {
+		this.storage = new File((generatePlayerFileName() + ".txt"));
+	}
 
 }
