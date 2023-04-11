@@ -23,6 +23,6 @@ public class Main {
 		inputFile.close();
 
 		//starts an instance of Dice blackjack
-		GameInstance game = new GameInstance();
+		Game game = new Game();
 	}
 }

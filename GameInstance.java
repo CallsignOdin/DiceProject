@@ -16,7 +16,7 @@ public class GameInstance {
 	private Dice dealerDiceTwo = new Dice(TOTALSIDES);
 	private boolean running = true;
 
-	public GameInstance() throws IOException {
+	public GameInstance(Scanner scnr) throws IOException {
 		
 
 		//calculating value for evaluation
@@ -39,7 +39,7 @@ public class GameInstance {
 
 	public void handleMenuInput() {
 		while(playerDiceOne.getValue() + playerDiceTwo.getValue()  <= MAXTOTAL ) {
-		menuInputVal = getMenuValue();
+		menuInputVal = getMenuValue(scnr);
 
 		if(menuInputVal == 1) {
 			playerDiceOne.roll();
@@ -150,7 +150,9 @@ public class GameInstance {
 		System.out.print("Please enter an option: ");
 	}
 
-	public int getMenuValue() {
+	public int getMenuValue(Scanner scnr) {
+		int returnVal;
 		displayMenu();
-		return menuInput.nextInt();
+		returnVal = scnr.nextInt(); 
+		return returnVal;
 	}}

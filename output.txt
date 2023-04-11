@@ -85,3 +85,12 @@ Dealer Total: 11
 Player final Total: 7
 Dealer final Total: 11
 Game result: LOSS
+New Match
+Initial player roll: 10
+Player rolls dice: 1 and 4.
+Dealer Total Exposed: 7
+Dealer rolls dice: 3 and 6.
+Dealer Total: 16
+Player final Total: 15
+Dealer final Total: 16
+Game result: LOSS
