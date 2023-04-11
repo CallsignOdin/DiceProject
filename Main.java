@@ -7,11 +7,8 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Main {
-/**
-* @param String as args
-* @return Termination code as int, 0 for normal, anything else is error condition
-* @throws Nothing is implemented
-*/
+	static public Scanner scnr = new Scanner(System.in);
+
 	public static void main(String[] args) throws IOException {
 		File welcomeMsgFile = new File("input.txt");
 		Scanner inputFile = new Scanner(welcomeMsgFile);
@@ -23,6 +20,6 @@ public class Main {
 		inputFile.close();
 
 		//starts an instance of Dice blackjack
-		GameInstance game = new GameInstance();
+		Game game = new Game(scnr);
 	}
 }

@@ -7,16 +7,31 @@ public class BankAccount {
 	private String accountOwner;
 	private double accountTotal = 100.00;
 	private FileWriter bankFile;
-}
 
-public BankAccount(String owner) {
+
+public BankAccount(String owner, Scanner scnr) {
 	this.accountOwner = owner;
-	this.bankFile = new FileWriter("bankone.txt", true);
+	this.bankFile = new FileWriter(generatePlayerFileName(scnr, true);
 }
 
 public BankAccount(String owner, double total) {
 	this.accountOwner = owner;
 	this.accountTotal = total;
+}
+
+//feelin like this is redundant
+public boolean validateFile(File file) { //should I use file obj ref or string of file name?
+	boolean boolVal = false;
+
+	//FIXME: need to check data folder for the filetype and return true.
+	if(file.exists()) {
+		boolVal = true;
+	}
+	else {
+		System.out.println("Error, file does not exist");
+	}
+
+	return boolVal;
 }
 
 public double getAccountTotal() {
@@ -55,4 +70,4 @@ public String generateAccountFileName(Scanner scnr) {
 	return inputVal;
 }
 
-
+}

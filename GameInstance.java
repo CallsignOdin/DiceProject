@@ -6,7 +6,7 @@ public class GameInstance {
 	final int MAXTOTAL = 21;
 	FileWriter gameLogHandler = new FileWriter("output.txt", true);
 	PrintWriter gameLogWriter = new PrintWriter(gameLogHandler);
-	private Scanner menuInput = new Scanner(System.in);
+	public Scanner scnr = new Scanner(System.in);
 	private int menuInputVal;
 	private int playerTotal;
 	private int dealerTotal;
@@ -16,7 +16,7 @@ public class GameInstance {
 	private Dice dealerDiceTwo = new Dice(TOTALSIDES);
 	private boolean running = true;
 
-	public GameInstance() throws IOException {
+	public GameInstance(Scanner scnr) throws IOException {
 		
 
 		//calculating value for evaluation
@@ -39,7 +39,7 @@ public class GameInstance {
 
 	public void handleMenuInput() {
 		while(playerDiceOne.getValue() + playerDiceTwo.getValue()  <= MAXTOTAL ) {
-		menuInputVal = getMenuValue();
+		menuInputVal = getMenuValue(scnr);
 
 		if(menuInputVal == 1) {
 			playerDiceOne.roll();
@@ -136,7 +136,8 @@ public class GameInstance {
 			//GAME LOGS
 			System.out.println("\nDealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");
 			gameLogWriter.println("Dealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");					
-			System.out.println("\nDealer Total: " + dealerTotal);					gameLogWriter.println("Dealer Total: " + dealerTotal);
+			System.out.println("\nDealer Total: " + dealerTotal);
+			gameLogWriter.println("Dealer Total: " + dealerTotal);
 			}
 		}
 	}
@@ -150,7 +151,9 @@ public class GameInstance {
 		System.out.print("Please enter an option: ");
 	}
 
-	public int getMenuValue() {
+	public int getMenuValue(Scanner scnr) {
+		int returnVal;
 		displayMenu();
-		return menuInput.nextInt();
+		returnVal = scnr.nextInt(); 
+		return returnVal;
 	}}
