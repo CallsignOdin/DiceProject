@@ -2,24 +2,34 @@
 *Description: This program Drives a blackjack game
 *Date: 02/27/2023
 *@version 0.0.0
-*/ 
+*/
+
+//Time to add an input reader class
 import java.io.*;
-import java.util.Scanner;
+
 
 public class Main {
-	static public Scanner scnr = new Scanner(System.in);
+	//Replacing Scanner declaration with InputReader
+	static public InputReader inputReader = new InputReader();
 
 	public static void main(String[] args) throws IOException {
+
+		/*
+		//Stuff from school, not necessary
+
 		File welcomeMsgFile = new File("input.txt");
 		Scanner inputFile = new Scanner(welcomeMsgFile);
 
 		String welcomeMsg = inputFile.nextLine();
 		System.out.println(welcomeMsg);
 		System.out.println();
-
 		inputFile.close();
+		*/
+
+		
 
 		//starts an instance of Dice blackjack
-		Game game = new Game(scnr);
+		//Passing InputReader obj to Game obj
+		Game game = new Game(inputReader);
 	}
 }

@@ -1,25 +1,39 @@
 import java.io.*;
-import java.util.Scanner;
+
 
 public class GameInstance {
+
+	//Controls how many sides are used in the dice
 	final int TOTALSIDES = 6;
+
+	//Controls the bust point for blackjack
 	final int MAXTOTAL = 21;
+	
+	//Objects control writing for gamelogs
 	FileWriter gameLogHandler = new FileWriter("output.txt", true);
 	PrintWriter gameLogWriter = new PrintWriter(gameLogHandler);
-	public Scanner scnr = new Scanner(System.in);
+	
+	 //encapsulated Scanner object
+	private InputReader inputReader;
+
+	//variable for menu control
 	private int menuInputVal;
+
+	//game variables
 	private int playerTotal;
 	private int dealerTotal;
+	
+	//Dice objects are immediately declared/initialized with TOTALSIDES
 	private Dice playerDiceOne = new Dice(TOTALSIDES);
 	private Dice playerDiceTwo = new Dice(TOTALSIDES);
 	private Dice dealerDiceOne = new Dice(TOTALSIDES);
 	private Dice dealerDiceTwo = new Dice(TOTALSIDES);
-	private boolean running = true;
 
-	public GameInstance(Scanner scnr) throws IOException {
-		
+	public GameInstance(InputReader inputReader) throws IOException {
+		//reutilizing the same InputReader object declared in main()
+		this.inputReader = inputReader;
 
-		//calculating value for evaluation
+		//Initial roll for evaluation
 		playerTotal = playerDiceOne.getValue() + playerDiceTwo.getValue();
 		dealerTotal = dealerDiceOne.getValue() + dealerDiceTwo.getValue();
 
@@ -28,39 +42,53 @@ public class GameInstance {
 		gameLogWriter.println("Initial player roll: " + playerTotal);
 
 		//initial game loop
-		while(running) {
-			handleMenuInput();	
+		while(true) {
+			handleMenuInput();
+			break;
 		}
 		
-
+		//closing log handlers after gameloop ends
 		gameLogHandler.close();
 		gameLogWriter.close();
 	}
 
-	public void handleMenuInput() {
-		while(playerDiceOne.getValue() + playerDiceTwo.getValue()  <= MAXTOTAL ) {
-		menuInputVal = getMenuValue(scnr);
 
+	public void handleMenuInput() {
+		//loop checks if player busted while in last iteration and allow player
+		while(playerDiceOne.getValue() + playerDiceTwo.getValue() <= MAXTOTAL ) {
+
+		//used to evaluate menu options
+		menuInputVal = getMenuValue(inputReader);
+
+		//option 1: Roll Dice
 		if(menuInputVal == 1) {
+			//Updating dice to new values
 			playerDiceOne.roll();
 			playerDiceTwo.roll();
+
+			
+
+			//using new dice to update playerTotal
 			playerTotal += (playerDiceOne.getValue() + playerDiceTwo.getValue());
+			
+			
 				
 			//GAME LOGS
 			System.out.println("\nPlayer rolls dice: " + playerDiceOne.getValue() + " and " + playerDiceTwo.getValue() + ".");
 			gameLogWriter.print("Player rolls dice: " + playerDiceOne.getValue() + " and " + playerDiceTwo.getValue() + ".\n");
 				
 
+			//if option 1 goes over MAXTOTAL, generate logs & break
 			if(playerTotal > MAXTOTAL) {
 
 				//GAME LOGS
 				System.out.println("Game result: BUST");
 				gameLogWriter.println("Game result: BUST");
 					
-				running = false;
 				break;
 			}			
 		}
+		//option 2: Call Dealer
 		else if(menuInputVal == 2) {
 			//display & log player/dealer values & determine win
 				
@@ -79,34 +107,29 @@ public class GameInstance {
 			gameLogWriter.println("Dealer final Total: " + dealerTotal);
 					
 
+			//Determines win
 			if(playerTotal == dealerTotal) {
 				//GAME LOGS
 				System.out.println("Game result: DRAW");
-
-						
 				gameLogWriter.println("Game result: DRAW");
 
-					running	= false;
+					
 					break;
 				}
-				else if(playerTotal > dealerTotal) {
-					//GAME LOGS
-					System.out.println("Game result: WIN");
+			else if(playerTotal > dealerTotal) {
+				//GAME LOGS
+				System.out.println("Game result: WIN");	
+				gameLogWriter.println("Game result: WIN");
 
-						
-					gameLogWriter.println("Game result: WIN");
-
-					running = false;
-					break;
-				}
-				else {
-					//GAME LOGS
-					System.out.println("Game result: LOSS");						
-					gameLogWriter.println("Game result: LOSS");
-
-					running = false;
-					break;
-				}
+				break;
+			}
+			else {
+				//GAME LOGS
+				System.out.println("Game result: LOSS");						
+				gameLogWriter.println("Game result: LOSS");
+					
+				break;
+			}
 		}
 
 		else if(menuInputVal == 3) {
@@ -116,7 +139,7 @@ public class GameInstance {
 				
 			gameLogWriter.println("Game Closed");
 
-			running = false;
+			
 			break;
 		}
 		else {
@@ -127,8 +150,8 @@ public class GameInstance {
 
 	public void updateDealerHand() {
 		//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
-		if(dealerTotal <= MAXTOTAL - 12) {
-			while(dealerTotal <= MAXTOTAL - 12) {
+		if(dealerTotal <= MAXTOTAL && dealerTotal <= playerTotal) {
+			while(dealerTotal <= MAXTOTAL && dealerTotal <= playerTotal) {
 			dealerDiceOne.roll();
 			dealerDiceTwo.roll();
 			dealerTotal += (dealerDiceOne.getValue() + dealerDiceTwo.getValue());
@@ -140,9 +163,18 @@ public class GameInstance {
 			gameLogWriter.println("Dealer Total: " + dealerTotal);
 			}
 		}
+		//never executes
+		else {
+			//GAME LOGS
+			System.out.println("Dealer does not roll dice this round.");
+			gameLogWriter.println("Dealer does not roll dice this round.");
+			System.out.println("\nDealer Total: " + dealerTotal);
+			gameLogWriter.println("Dealer Total: " + dealerTotal);
+		}
 	}
 
 
+	//displays menu
 	public void displayMenu() {
 		System.out.println("Player Total: " + playerTotal + "\n");
 		System.out.println("1: Roll Dice");
@@ -151,9 +183,10 @@ public class GameInstance {
 		System.out.print("Please enter an option: ");
 	}
 
-	public int getMenuValue(Scanner scnr) {
+	public int getMenuValue(InputReader inputReader) {
 		int returnVal;
 		displayMenu();
-		returnVal = scnr.nextInt(); 
+		returnVal = inputReader.nextInt();
+		inputReader.clearInputReader();
 		return returnVal;
 	}}

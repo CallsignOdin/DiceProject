@@ -1,17 +1,19 @@
 //separating access to reading from storage from player obj
 //Will reuse as Dealer account
 import java.lang.String;
-import java.util.Scanner;
+
+import java.io.*;
 
 public class BankAccount {
 	private String accountOwner;
 	private double accountTotal = 100.00;
 	private FileWriter bankFile;
+	private InputReader inputReader;
 
-
-public BankAccount(String owner, Scanner scnr) {
+public BankAccount(String owner, InputReader inputReader) {
 	this.accountOwner = owner;
-	this.bankFile = new FileWriter(generatePlayerFileName(scnr, true);
+	this.inputReader = inputReader;
+	this.bankFile = new FileWriter(generatePlayerFileName(inputReader, true);
 }
 
 public BankAccount(String owner, double total) {
@@ -42,7 +44,7 @@ public String getAccountOwner() {
 	return this.accountOwner;
 }
 
-public String generateAccountFileName(Scanner scnr) {
+public String generateAccountFileName() {
 	String inputVal;
 	boolean nameVerified = false;
 	int i;
@@ -68,6 +70,9 @@ public String generateAccountFileName(Scanner scnr) {
 	inputVal = inputVal.concat(".txt");
 
 	return inputVal;
-}
 
+
+public void getFileValues(File bankFile) {
+
+}
 }
