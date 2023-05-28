@@ -9,11 +9,11 @@ import java.io.*;
 
 
 public class Main {
-	//Replacing Scanner declaration with InputReader
-	static public InputReader inputReader = new InputReader();
+	public static InputReader inputReader = new InputReader();
 
 	public static void main(String[] args) throws IOException {
-
+	//Replacing Scanner declaration with InputReader
+	 
 		/*
 		//Stuff from school, not necessary
 

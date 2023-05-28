@@ -13,8 +13,7 @@ public class GameInstance {
 	FileWriter gameLogHandler = new FileWriter("output.txt", true);
 	PrintWriter gameLogWriter = new PrintWriter(gameLogHandler);
 	
-	 //encapsulated Scanner object
-	private InputReader inputReader;
+	InputReader inputReader;
 
 	//variable for menu control
 	private int menuInputVal;
@@ -22,6 +21,12 @@ public class GameInstance {
 	//game variables
 	private int playerTotal;
 	private int dealerTotal;
+
+	//betting mechanic variables
+	private double MoneyPot;
+	private double dealerMoneyTotal;
+	private double playerBet;
+	private BankAccount playerAccount = new BankAccount("Cheddar", "bankone.txt");
 	
 	//Dice objects are immediately declared/initialized with TOTALSIDES
 	private Dice playerDiceOne = new Dice(TOTALSIDES);
@@ -29,9 +34,114 @@ public class GameInstance {
 	private Dice dealerDiceOne = new Dice(TOTALSIDES);
 	private Dice dealerDiceTwo = new Dice(TOTALSIDES);
 
+
+	/*
+	when opening blackjack as the game...
+
+	1. welcome player
+	2. show playersaves (shown as credit cards) as a menu option
+	3. utilize that 'credit card' for the betting phase and winphases
+
+	methods needed
+
+	greeting(): void
+	profileDirReader(String: path): 
+	*/
+
+	public GameInstance(InputReader inputReader) throws IOException {
+		this.inputReader =	inputReader; 
+
+		greetPlayer();
+		handleBettingPhase();
+		handleGamePhase();
+	}
+
+	public void greetPlayer() {
+		System.out.println("Welcome to BlackJack! This is a version that is played with Dice.\n");
+	}
+
+	public void setPlayerBet() {
+
+		System.out.print("Enter a value(double) to bet this round: ");
+		this.playerBet = inputReader.nextDouble();
+	}
+
+	public void handleBettingPhase() throws IOException {
+		System.out.println("Bank Total: $" + playerAccount.getAccountBalance());
+
+		setPlayerBet();
+
+		if(playerBet <= playerAccount.getAccountBalance()) {
+			playerAccount.updateAccountBalance((playerBet * -1.0));
+			setMoneyPot((playerBet * 2.00));
+		}
+	}
+
+	public void handleGamePhase() throws IOException {
+		//new initial dice rolls to get going
+		updatePlayerTotal();
+		updateDealerTotal();
+		
+		//New Game logs
+		gameLogWriter.println("New Match");
+		gameLogWriter.println("Initial player roll: " + playerTotal);
+
+		//main loop
+		while(true) {
+			handleMenuInput();
+			break;
+		}
+
+		//closing log handlers after gameloop ends
+		gameLogHandler.close();
+		gameLogWriter.close();
+	}
+
+	public void setMoneyPot(double money) {
+		this.MoneyPot = money;
+	}
+
+	public double getMoneyPot() {
+		return this.MoneyPot;
+	}
+
+	public void updateMoneyPot(double money) {
+		setMoneyPot(getMoneyPot() + money);
+	}
+
+	public int rollDice(Dice one, Dice two) {
+		return (one.getValue() + two.getValue());
+	}
+
+	public void updatePlayerTotal() {
+		setPlayerTotal(getPlayerTotal() + rollDice(playerDiceOne, playerDiceTwo));
+	}
+
+	public void updateDealerTotal() {
+		setDealerTotal((getDealerTotal() + rollDice(dealerDiceOne, dealerDiceTwo)));
+	}
+
+	public int getPlayerTotal() {
+		return playerTotal;
+	}
+
+	public int getDealerTotal() {
+		return dealerTotal;
+	}
+
+	public void setDealerTotal(int total) {
+		this.dealerTotal = total;
+	}
+
+	public void setPlayerTotal(int total) {
+		this.playerTotal = total;
+	}
+
+/*
 	public GameInstance(InputReader inputReader) throws IOException {
 		//reutilizing the same InputReader object declared in main()
 		this.inputReader = inputReader;
+
 
 		//Initial roll for evaluation
 		playerTotal = playerDiceOne.getValue() + playerDiceTwo.getValue();
@@ -51,9 +161,56 @@ public class GameInstance {
 		gameLogHandler.close();
 		gameLogWriter.close();
 	}
+*/
+
+	public void handleGameOutcomeLog(String msg, boolean gameWon) {
+		//GAME LOGS
+		if(gameWon) {
+			//WIN
+			System.out.println("Game result: " + msg);
+			System.out.println("Moneypot Reward: $" + getMoneyPot());
+			gameLogWriter.println("Game result: " + msg);
+			System.out.println("Moneypot Reward: $" + getMoneyPot());
+		}
+		else {
+			//LOSS
+			System.out.println("Game result: " + msg);
+			System.out.println("Lost MoneyPot: $" + getMoneyPot());
+			gameLogWriter.println("Game result: " + msg);
+			System.out.println("Lost MoneyPot: $" + getMoneyPot());
+		}
+	}
 
 
-	public void handleMenuInput() {
+	public void handleGameOutcome(Boolean bool) throws IOException {
+		Boolean gameWon = bool;
+		if(gameWon) {
+			if(getDealerTotal() > MAXTOTAL) {
+				handleGameOutcomeLog("DEALER BUST", gameWon);
+				playerAccount.updateAccountBalance(MoneyPot);
+
+			}
+			else {
+				handleGameOutcomeLog("WIN", gameWon);
+				playerAccount.updateAccountBalance(MoneyPot);
+			}
+		}
+		else if(!gameWon) {
+			if(getPlayerTotal() > MAXTOTAL) {
+				handleGameOutcomeLog("BUST", gameWon);
+			}
+			else {
+				handleGameOutcomeLog("LOSS", gameWon);
+			}
+		}
+		else {
+			handleGameOutcomeLog("DRAW", gameWon);
+			playerAccount.updateAccountBalance((MoneyPot * 0.5));
+		}
+	}
+
+
+	public void handleMenuInput() throws IOException {
 		//loop checks if player busted while in last iteration and allow player
 		while(playerDiceOne.getValue() + playerDiceTwo.getValue() <= MAXTOTAL ) {
 
@@ -66,25 +223,17 @@ public class GameInstance {
 			playerDiceOne.roll();
 			playerDiceTwo.roll();
 
-			
-
 			//using new dice to update playerTotal
-			playerTotal += (playerDiceOne.getValue() + playerDiceTwo.getValue());
-			
-			
-				
+			updatePlayerTotal();
+							
 			//GAME LOGS
 			System.out.println("\nPlayer rolls dice: " + playerDiceOne.getValue() + " and " + playerDiceTwo.getValue() + ".");
 			gameLogWriter.print("Player rolls dice: " + playerDiceOne.getValue() + " and " + playerDiceTwo.getValue() + ".\n");
 				
-
 			//if option 1 goes over MAXTOTAL, generate logs & break
 			if(playerTotal > MAXTOTAL) {
 
-				//GAME LOGS
-				System.out.println("Game result: BUST");
-				gameLogWriter.println("Game result: BUST");
-					
+				handleGameOutcome(false);
 				break;
 			}			
 		}
@@ -109,25 +258,18 @@ public class GameInstance {
 
 			//Determines win
 			if(playerTotal == dealerTotal) {
-				//GAME LOGS
-				System.out.println("Game result: DRAW");
-				gameLogWriter.println("Game result: DRAW");
-
-					
-					break;
+				//DRAW
+				handleGameOutcome(false);
+				break;
 				}
 			else if(playerTotal > dealerTotal) {
-				//GAME LOGS
-				System.out.println("Game result: WIN");	
-				gameLogWriter.println("Game result: WIN");
-
+				//WIN
+				handleGameOutcome(true);
 				break;
 			}
 			else {
 				//GAME LOGS
-				System.out.println("Game result: LOSS");						
-				gameLogWriter.println("Game result: LOSS");
-					
+				handleGameOutcome(false);
 				break;
 			}
 		}
@@ -135,8 +277,6 @@ public class GameInstance {
 		else if(menuInputVal == 3) {
 			//GAME LOGS
 			System.out.println("Game Closing");
-
-				
 			gameLogWriter.println("Game Closed");
 
 			
@@ -152,15 +292,13 @@ public class GameInstance {
 		//evaluating dealer rolls or call, only rolling when rolling will NOT bust the game
 		if(dealerTotal <= MAXTOTAL && dealerTotal <= playerTotal) {
 			while(dealerTotal <= MAXTOTAL && dealerTotal <= playerTotal) {
-			dealerDiceOne.roll();
-			dealerDiceTwo.roll();
-			dealerTotal += (dealerDiceOne.getValue() + dealerDiceTwo.getValue());
+				updateDealerTotal();
 
-			//GAME LOGS
-			System.out.println("\nDealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");
-			gameLogWriter.println("Dealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");					
-			System.out.println("\nDealer Total: " + dealerTotal);
-			gameLogWriter.println("Dealer Total: " + dealerTotal);
+				//GAME LOGS
+				System.out.println("\nDealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");
+				gameLogWriter.println("Dealer rolls dice: " + dealerDiceOne.getValue() + " and " + dealerDiceTwo.getValue() + ".");					
+				System.out.println("\nDealer Total: " + getDealerTotal());
+				gameLogWriter.println("Dealer Total: " + getDealerTotal());
 			}
 		}
 		//never executes
@@ -189,4 +327,5 @@ public class GameInstance {
 		returnVal = inputReader.nextInt();
 		inputReader.clearInputReader();
 		return returnVal;
-	}}
+	}
+}

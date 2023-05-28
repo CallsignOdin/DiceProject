@@ -11,13 +11,11 @@ public class InputReader {
 		this.scnr = new Scanner(System.in);
 	}
 
-
-
 	public String nextLine() {
 		return scnr.nextLine();
 	}
 
-	public Double nextDouble() {
+	public double nextDouble() {
 		return scnr.nextDouble();
 	}
 
